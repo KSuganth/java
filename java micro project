@@ -1,0 +1,165 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+class Automobile {
+    private String make;
+    private String model;
+    private int year;
+    private double price;
+
+    // Constructor
+    public Automobile(String make, String model, int year, double price) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+    }
+
+    // Getter and Setter methods
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Make: " + make + ", Model: " + model + ", Year: " + year + ", Price: $" + price;
+    }
+}
+
+public class AutomobileManagementSystem {
+    private static ArrayList<Automobile> automobiles = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n------ Automobile Management System ------");
+            System.out.println("1. Add New Automobile");
+            System.out.println("2. Display All Automobiles");
+            System.out.println("3. Update Automobile Information");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume the newline character
+            
+            switch (choice) {
+                case 1:
+                    addAutomobile(scanner);
+                    break;
+                case 2:
+                    displayAutomobiles();
+                    break;
+                case 3:
+                    updateAutomobile(scanner);
+                    break;
+                case 4:
+                    System.out.println("Exiting... Thank you!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    // Method to add a new automobile
+    private static void addAutomobile(Scanner scanner) {
+        System.out.println("\nEnter Automobile Details:");
+
+        System.out.print("Make: ");
+        String make = scanner.nextLine();
+
+        System.out.print("Model: ");
+        String model = scanner.nextLine();
+
+        System.out.print("Year: ");
+        int year = scanner.nextInt();
+
+        System.out.print("Price: ");
+        double price = scanner.nextDouble();
+        scanner.nextLine(); // consume the newline character
+
+        Automobile automobile = new Automobile(make, model, year, price);
+        automobiles.add(automobile);
+        System.out.println("Automobile added successfully.");
+    }
+
+    // Method to display all automobiles
+    private static void displayAutomobiles() {
+        if (automobiles.isEmpty()) {
+            System.out.println("No automobiles available.");
+        } else {
+            System.out.println("\n------ List of Automobiles ------");
+            for (int i = 0; i < automobiles.size(); i++) {
+                System.out.println((i + 1) + ". " + automobiles.get(i));
+            }
+        }
+    }
+
+    // Method to update automobile information
+    private static void updateAutomobile(Scanner scanner) {
+        displayAutomobiles();
+
+        if (automobiles.isEmpty()) return;
+
+        System.out.print("\nEnter the number of the automobile to update: ");
+        int index = scanner.nextInt() - 1;
+        scanner.nextLine(); // consume the newline character
+
+        if (index >= 0 && index < automobiles.size()) {
+            Automobile automobile = automobiles.get(index);
+
+            System.out.println("\nUpdating details for: " + automobile);
+            System.out.print("Enter new Make (current: " + automobile.getMake() + "): ");
+            String make = scanner.nextLine();
+            automobile.setMake(make.isEmpty() ? automobile.getMake() : make);
+
+            System.out.print("Enter new Model (current: " + automobile.getModel() + "): ");
+            String model = scanner.nextLine();
+            automobile.setModel(model.isEmpty() ? automobile.getModel() : model);
+
+            System.out.print("Enter new Year (current: " + automobile.getYear() + "): ");
+            int year = scanner.nextInt();
+            scanner.nextLine(); // consume the newline character
+            automobile.setYear(year);
+
+            System.out.print("Enter new Price (current: $" + automobile.getPrice() + "): ");
+            double price = scanner.nextDouble();
+            scanner.nextLine(); // consume the newline character
+            automobile.setPrice(price);
+
+            System.out.println("Automobile updated successfully.");
+        } else {
+            System.out.println("Invalid selection.");
+        }
+    }
+}
